@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 import {HomeIcon} from '@sanity/icons/Home'
+import {pixelArtField} from '../objects/imageFields'
 
 /**
  * Singleton: there is exactly one home page, pinned to the `homePage` document
@@ -26,6 +27,7 @@ export const homePage = defineType({
           description: 'Describe the picture, e.g. "Portrait of Kinteyoi".',
           validation: (rule) => rule.required().warning('Alt text is important for accessibility and SEO'),
         }),
+        pixelArtField,
       ],
     }),
     defineField({

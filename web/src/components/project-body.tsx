@@ -2,6 +2,7 @@ import Image from 'next/image'
 import {PortableText, type PortableTextComponents} from 'next-sanity'
 import type {PROJECT_QUERY_RESULT} from '@/sanity.types'
 import {urlFor} from '@/sanity/image'
+import {PixelArtImage} from './pixel-art-image'
 
 type Body = NonNullable<NonNullable<PROJECT_QUERY_RESULT>['body']>
 type BodyImage = Extract<Body[number], {_type: 'image'}>
@@ -19,14 +20,26 @@ const components: PortableTextComponents = {
       const {width, height} = dimensionsFromRef(value.asset._ref)
       return (
         <figure className="my-8">
-          <Image
-            src={urlFor(value).width(1200).fit('max').auto('format').url()}
-            alt={value.alt || ''}
-            width={width}
-            height={height}
-            sizes="(min-width: 768px) 48rem, 100vw"
-            className="h-auto w-full rounded-lg"
-          />
+          {value.pixelArt ? (
+            // Body images are not dereferenced, so the untouched file URL is built from the
+            // asset reference alone: passing the image object would add the hotspot crop.
+            <PixelArtImage
+              src={urlFor(value.asset).url()}
+              alt={value.alt || ''}
+              width={width}
+              height={height}
+              className="rounded-lg"
+            />
+          ) : (
+            <Image
+              src={urlFor(value).width(1200).fit('max').auto('format').url()}
+              alt={value.alt || ''}
+              width={width}
+              height={height}
+              sizes="(min-width: 768px) 48rem, 100vw"
+              className="h-auto w-full rounded-lg"
+            />
+          )}
           {value.caption && (
             <figcaption className="mt-2 text-sm text-foreground/60">{value.caption}</figcaption>
           )}

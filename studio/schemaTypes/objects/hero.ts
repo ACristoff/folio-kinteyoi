@@ -1,5 +1,6 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {ImageIcon} from '@sanity/icons/Image'
+import {altField, pixelArtField} from './imageFields'
 
 export const HERO_VARIANTS = [
   {title: 'Single image', value: 'image'},
@@ -8,13 +9,6 @@ export const HERO_VARIANTS = [
 ]
 
 type HeroParent = {variant?: string} | undefined
-
-const altField = defineField({
-  name: 'alt',
-  type: 'string',
-  title: 'Alternative text',
-  validation: (rule) => rule.required().warning('Alt text is important for accessibility and SEO'),
-})
 
 export const hero = defineType({
   name: 'hero',
@@ -60,7 +54,7 @@ export const hero = defineType({
       name: 'image',
       type: 'image',
       options: {hotspot: true},
-      fields: [altField],
+      fields: [altField, pixelArtField],
       hidden: ({parent}) => (parent as HeroParent)?.variant !== 'image',
       validation: (rule) =>
         rule.custom((value, context) => {
@@ -77,7 +71,7 @@ export const hero = defineType({
         defineArrayMember({
           type: 'image',
           options: {hotspot: true},
-          fields: [altField],
+          fields: [altField, pixelArtField],
         }),
       ],
       options: {layout: 'grid'},
@@ -106,7 +100,7 @@ export const hero = defineType({
       description:
         'Served exactly as uploaded so the animation is preserved (no resizing or cropping). Keep the file size reasonable.',
       options: {accept: 'image/gif', hotspot: false},
-      fields: [altField],
+      fields: [altField, pixelArtField],
       hidden: ({parent}) => (parent as HeroParent)?.variant !== 'gif',
       validation: (rule) =>
         rule.custom((value, context) => {

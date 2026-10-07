@@ -18,6 +18,8 @@ export interface SidebarProfile {
   src: string
   alt: string
   lqip?: string
+  /** Pixel art: `src` is the untouched file, drawn with hard pixel edges. */
+  pixelArt?: boolean
 }
 
 const TOGGLE_CLASS =
@@ -127,9 +129,10 @@ function Avatar({profile}: {profile: SidebarProfile | null}) {
         height={px}
         sizes={`${px}px`}
         priority
+        unoptimized={profile.pixelArt}
         placeholder={profile.lqip ? 'blur' : 'empty'}
         blurDataURL={profile.lqip}
-        className="size-full object-cover"
+        className={['size-full object-cover', profile.pixelArt && 'pixel-art'].filter(Boolean).join(' ')}
       />
     </div>
   )

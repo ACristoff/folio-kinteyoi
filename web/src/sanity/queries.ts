@@ -11,7 +11,8 @@ const IMAGE_FIELDS = /* groq */ `
   },
   alt,
   hotspot,
-  crop
+  crop,
+  pixelArt
 `
 
 const IMAGE_PROJECTION = /* groq */ `{${IMAGE_FIELDS}}`

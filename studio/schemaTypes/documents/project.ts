@@ -1,5 +1,6 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {CaseIcon} from '@sanity/icons/Case'
+import {altField, pixelArtField} from '../objects/imageFields'
 
 export const project = defineType({
   name: 'project',
@@ -30,14 +31,7 @@ export const project = defineType({
       title: 'Cover image',
       type: 'image',
       options: {hotspot: true},
-      fields: [
-        defineField({
-          name: 'alt',
-          type: 'string',
-          title: 'Alternative text',
-          validation: (rule) => rule.required().warning('Alt text is important for accessibility and SEO'),
-        }),
-      ],
+      fields: [altField, pixelArtField],
     }),
     defineField({
       name: 'role',
@@ -79,15 +73,7 @@ export const project = defineType({
         defineArrayMember({
           type: 'image',
           options: {hotspot: true},
-          fields: [
-            defineField({
-              name: 'alt',
-              type: 'string',
-              title: 'Alternative text',
-              validation: (rule) => rule.required().warning('Alt text is important for accessibility'),
-            }),
-            defineField({name: 'caption', type: 'string'}),
-          ],
+          fields: [altField, pixelArtField, defineField({name: 'caption', type: 'string'})],
         }),
       ],
     }),

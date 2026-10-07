@@ -46,3 +46,49 @@
     color: var(--background);
   }
 }
+
+/*
+ * Pixel art. Flagged images are served untouched (see sanity/image.ts) and the
+ * browser scales them with nearest-neighbour sampling, so every source pixel
+ * stays a hard square instead of being blurred by the default smoothing.
+ */
+@utility pixel-art {
+  image-rendering: pixelated;
+}
+
+@layer components {
+  /*
+   * Frame around a pixel-art image, rendered by <PixelArtImage>. The image is
+   * enlarged by a whole-number factor (so every pixel ends up the same size on
+   * screen) and centred; the leftover space shows the frame background.
+   * `--pixel-w` / `--pixel-h` hold the file's native size in pixels.
+   *
+   * `.pixel-art-frame` alone fits the width (an image in a text column).
+   * Add `.pixel-art-frame-box` to fit the height too; the frame then needs a
+   * definite size (aspect-ratio, fixed height or `absolute inset-0`).
+   */
+  .pixel-art-frame {
+    container-type: inline-size;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    --pixel-fit: 100cqw;
+  }
+
+  .pixel-art-frame-box {
+    container-type: size;
+    --pixel-fit: min(100cqw, calc(100cqh * var(--pixel-w) / var(--pixel-h)));
+  }
+
+  .pixel-art-frame > .pixel-art {
+    /* Browsers without round(): fill the frame at a fractional scale. */
+    width: var(--pixel-fit);
+    /* Largest whole multiple of the native width that fits, never below 1x. */
+    width: max(calc(var(--pixel-w) * 1px), round(down, var(--pixel-fit), calc(var(--pixel-w) * 1px)));
+    height: auto;
+    /* Art larger than the frame is shrunk to fit instead of overflowing. */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+}

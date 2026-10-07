@@ -35,6 +35,7 @@ export type Hero = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
+    pixelArt?: boolean;
     _type: "image";
   };
   slides?: Array<{
@@ -43,6 +44,7 @@ export type Hero = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
+    pixelArt?: boolean;
     _type: "image";
     _key: string;
   }>;
@@ -53,6 +55,7 @@ export type Hero = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
+    pixelArt?: boolean;
     _type: "image";
   };
 };
@@ -72,6 +75,7 @@ export type Project = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
+    pixelArt?: boolean;
     _type: "image";
   };
   role?: string;
@@ -105,6 +109,7 @@ export type Project = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         alt?: string;
+        pixelArt?: boolean;
         caption?: string;
         _type: "image";
         _key: string;
@@ -146,6 +151,7 @@ export type HomePage = {
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
+    pixelArt?: boolean;
     _type: "image";
   };
   hero?: Hero;
@@ -267,7 +273,7 @@ export type AllSanitySchemaTypes =
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: PROFILE_QUERY
-// Query: *[_type == "homePage"][0]{    profileImage {  asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt,  hotspot,  crop}  }
+// Query: *[_type == "homePage"][0]{    profileImage {  asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt,  hotspot,  crop,  pixelArt}  }
 export type PROFILE_QUERY_RESULT = {
   profileImage: {
     asset: {
@@ -284,12 +290,13 @@ export type PROFILE_QUERY_RESULT = {
     alt: string | null;
     hotspot: SanityImageHotspot | null;
     crop: SanityImageCrop | null;
+    pixelArt: boolean | null;
   } | null;
 } | null;
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: HOME_PAGE_QUERY
-// Query: *[_type == "homePage"][0]{    _id,    profileImage {  asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt,  hotspot,  crop},    hero {      variant,      showProfile,      heading,      subheading,      body,      image {  asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt,  hotspot,  crop},      slides[]{ _key,   asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt,  hotspot,  crop },      interval,      gif {  asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt,  hotspot,  crop}    }  }
+// Query: *[_type == "homePage"][0]{    _id,    profileImage {  asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt,  hotspot,  crop,  pixelArt},    hero {      variant,      showProfile,      heading,      subheading,      body,      image {  asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt,  hotspot,  crop,  pixelArt},      slides[]{ _key,   asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt,  hotspot,  crop,  pixelArt },      interval,      gif {  asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt,  hotspot,  crop,  pixelArt}    }  }
 export type HOME_PAGE_QUERY_RESULT = {
   _id: string;
   profileImage: {
@@ -307,6 +314,7 @@ export type HOME_PAGE_QUERY_RESULT = {
     alt: string | null;
     hotspot: SanityImageHotspot | null;
     crop: SanityImageCrop | null;
+    pixelArt: boolean | null;
   } | null;
   hero: {
     variant: "carousel" | "gif" | "image" | null;
@@ -329,6 +337,7 @@ export type HOME_PAGE_QUERY_RESULT = {
       alt: string | null;
       hotspot: SanityImageHotspot | null;
       crop: SanityImageCrop | null;
+      pixelArt: boolean | null;
     } | null;
     slides: Array<{
       _key: string;
@@ -346,6 +355,7 @@ export type HOME_PAGE_QUERY_RESULT = {
       alt: string | null;
       hotspot: SanityImageHotspot | null;
       crop: SanityImageCrop | null;
+      pixelArt: boolean | null;
     }> | null;
     interval: number | null;
     gif: {
@@ -363,13 +373,14 @@ export type HOME_PAGE_QUERY_RESULT = {
       alt: string | null;
       hotspot: SanityImageHotspot | null;
       crop: SanityImageCrop | null;
+      pixelArt: boolean | null;
     } | null;
   } | null;
 } | null;
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: PROJECTS_QUERY
-// Query: *[_type == "project" && defined(slug.current)]  | order(publishedAt desc, _createdAt desc) {    _id,    title,    "slug": slug.current,    summary,    role,    technologies,    publishedAt,    coverImage {  asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt,  hotspot,  crop}  }
+// Query: *[_type == "project" && defined(slug.current)]  | order(publishedAt desc, _createdAt desc) {    _id,    title,    "slug": slug.current,    summary,    role,    technologies,    publishedAt,    coverImage {  asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt,  hotspot,  crop,  pixelArt}  }
 export type PROJECTS_QUERY_RESULT = Array<{
   _id: string;
   title: string | null;
@@ -393,6 +404,7 @@ export type PROJECTS_QUERY_RESULT = Array<{
     alt: string | null;
     hotspot: SanityImageHotspot | null;
     crop: SanityImageCrop | null;
+    pixelArt: boolean | null;
   } | null;
 }>;
 
@@ -405,7 +417,7 @@ export type PROJECT_SLUGS_QUERY_RESULT = Array<{
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: PROJECT_QUERY
-// Query: *[_type == "project" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    summary,    role,    technologies,    projectUrl,    repoUrl,    publishedAt,    coverImage {  asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt,  hotspot,  crop},    body  }
+// Query: *[_type == "project" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    summary,    role,    technologies,    projectUrl,    repoUrl,    publishedAt,    coverImage {  asset->{    _id,    url,    metadata {      lqip,      dimensions { width, height }    }  },  alt,  hotspot,  crop,  pixelArt},    body  }
 export type PROJECT_QUERY_RESULT = {
   _id: string;
   title: string | null;
@@ -431,6 +443,7 @@ export type PROJECT_QUERY_RESULT = {
     alt: string | null;
     hotspot: SanityImageHotspot | null;
     crop: SanityImageCrop | null;
+    pixelArt: boolean | null;
   } | null;
   body: Array<
     | {
@@ -458,6 +471,7 @@ export type PROJECT_QUERY_RESULT = {
         hotspot?: SanityImageHotspot;
         crop?: SanityImageCrop;
         alt?: string;
+        pixelArt?: boolean;
         caption?: string;
         _type: "image";
         _key: string;
@@ -468,11 +482,11 @@ export type PROJECT_QUERY_RESULT = {
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '\n  *[_type == "homePage"][0]{\n    profileImage {\n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt,\n  hotspot,\n  crop\n}\n  }\n': PROFILE_QUERY_RESULT;
-    '\n  *[_type == "homePage"][0]{\n    _id,\n    profileImage {\n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt,\n  hotspot,\n  crop\n},\n    hero {\n      variant,\n      showProfile,\n      heading,\n      subheading,\n      body,\n      image {\n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt,\n  hotspot,\n  crop\n},\n      slides[]{ _key, \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt,\n  hotspot,\n  crop\n },\n      interval,\n      gif {\n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt,\n  hotspot,\n  crop\n}\n    }\n  }\n': HOME_PAGE_QUERY_RESULT;
-    '\n  *[_type == "project" && defined(slug.current)]\n  | order(publishedAt desc, _createdAt desc) {\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    role,\n    technologies,\n    publishedAt,\n    coverImage {\n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt,\n  hotspot,\n  crop\n}\n  }\n': PROJECTS_QUERY_RESULT;
+    '\n  *[_type == "homePage"][0]{\n    profileImage {\n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt,\n  hotspot,\n  crop,\n  pixelArt\n}\n  }\n': PROFILE_QUERY_RESULT;
+    '\n  *[_type == "homePage"][0]{\n    _id,\n    profileImage {\n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt,\n  hotspot,\n  crop,\n  pixelArt\n},\n    hero {\n      variant,\n      showProfile,\n      heading,\n      subheading,\n      body,\n      image {\n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt,\n  hotspot,\n  crop,\n  pixelArt\n},\n      slides[]{ _key, \n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt,\n  hotspot,\n  crop,\n  pixelArt\n },\n      interval,\n      gif {\n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt,\n  hotspot,\n  crop,\n  pixelArt\n}\n    }\n  }\n': HOME_PAGE_QUERY_RESULT;
+    '\n  *[_type == "project" && defined(slug.current)]\n  | order(publishedAt desc, _createdAt desc) {\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    role,\n    technologies,\n    publishedAt,\n    coverImage {\n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt,\n  hotspot,\n  crop,\n  pixelArt\n}\n  }\n': PROJECTS_QUERY_RESULT;
     '\n  *[_type == "project" && defined(slug.current)]{ "slug": slug.current }\n': PROJECT_SLUGS_QUERY_RESULT;
-    '\n  *[_type == "project" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    role,\n    technologies,\n    projectUrl,\n    repoUrl,\n    publishedAt,\n    coverImage {\n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt,\n  hotspot,\n  crop\n},\n    body\n  }\n': PROJECT_QUERY_RESULT;
+    '\n  *[_type == "project" && slug.current == $slug][0]{\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    role,\n    technologies,\n    projectUrl,\n    repoUrl,\n    publishedAt,\n    coverImage {\n  asset->{\n    _id,\n    url,\n    metadata {\n      lqip,\n      dimensions { width, height }\n    }\n  },\n  alt,\n  hotspot,\n  crop,\n  pixelArt\n},\n    body\n  }\n': PROJECT_QUERY_RESULT;
   }
 }
 // Lets @sanity/client releases that predate the global registry read it too

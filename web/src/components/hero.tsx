@@ -1,6 +1,6 @@
 import {stegaClean, type StegaBranded, type StegaCleaned} from 'next-sanity'
 import type {HOME_PAGE_QUERY_RESULT} from '@/sanity.types'
-import {urlFor} from '@/sanity/image'
+import {toPixelArtSource, urlFor} from '@/sanity/image'
 import {HeroCarousel} from './hero-carousel'
 import {
   HeroFrame,
@@ -88,15 +88,18 @@ export function Hero({
     }
 
     case 'gif': {
-      const url = value.gif?.asset?.url
+      const gif = value.gif
+      const url = gif?.asset?.url
       if (!url) return null
       // The raw asset URL, untouched: any CDN or Next.js transform would flatten the animation.
+      const pixel = gif.pixelArt ? toPixelArtSource(gif.asset) : null
       return (
         <HeroFrame>
           <HeroPicture
-            src={url}
-            alt={value.gif?.alt || ''}
-            objectPosition={toObjectPosition(value.gif?.hotspot)}
+            src={stegaClean(url)}
+            alt={gif.alt || ''}
+            objectPosition={pixel ? undefined : toObjectPosition(gif.hotspot)}
+            pixelArt={pixel ? {width: pixel.width, height: pixel.height} : undefined}
             unoptimized
             priority
           />
@@ -113,9 +116,17 @@ export function Hero({
 /** Build the serialisable props for one Sanity image, or null when it has no asset. */
 function toPicture(image: HeroImage | HeroSlide | null | undefined): HeroPictureProps | null {
   if (!image?.asset) return null
+  const alt = image.alt || ''
+
+  // Pixel art skips the CDN and the optimizer entirely; see PixelArtImage.
+  const pixel = image.pixelArt ? toPixelArtSource(image.asset) : null
+  if (pixel) {
+    return {src: pixel.src, alt, unoptimized: true, pixelArt: {width: pixel.width, height: pixel.height}}
+  }
+
   return {
     src: urlFor(image).width(HERO_WIDTH).fit('max').auto('format').url(),
-    alt: image.alt || '',
+    alt,
     blurDataURL: image.asset.metadata?.lqip ?? undefined,
     objectPosition: toObjectPosition(image.hotspot),
   }
@@ -124,9 +135,14 @@ function toPicture(image: HeroImage | HeroSlide | null | undefined): HeroPicture
 /** Square, hotspot-aware crop for the circular profile picture, or null when unset. */
 function toAvatar(image: HeroProfileImage | null | undefined): HeroAvatarProps | null {
   if (!image?.asset) return null
+  const alt = image.alt || ''
+
+  const pixel = image.pixelArt ? toPixelArtSource(image.asset) : null
+  if (pixel) return {src: pixel.src, alt, pixelArt: true}
+
   return {
     src: urlFor(image).width(AVATAR_SIZE).height(AVATAR_SIZE).fit('crop').auto('format').url(),
-    alt: image.alt || '',
+    alt,
     blurDataURL: image.asset.metadata?.lqip ?? undefined,
   }
 }

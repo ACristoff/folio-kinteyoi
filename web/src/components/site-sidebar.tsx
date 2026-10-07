@@ -2,7 +2,7 @@ import {draftMode} from 'next/headers'
 import type {StegaBranded, StegaCleaned} from 'next-sanity'
 import {Suspense} from 'react'
 import type {PROFILE_QUERY_RESULT} from '@/sanity.types'
-import {urlFor} from '@/sanity/image'
+import {toPixelArtSource, urlFor} from '@/sanity/image'
 import {cachedSanity, getDynamicFetchOptions, type DynamicFetchOptions} from '@/sanity/live'
 import {PROFILE_QUERY} from '@/sanity/queries'
 import {Sidebar, type SidebarProfile} from './sidebar'
@@ -45,9 +45,14 @@ type ProfileImage = StegaCleaned<CleanProfileImage> | StegaBranded<CleanProfileI
 
 function toProfile(image: ProfileImage | null | undefined): SidebarProfile | null {
   if (!image?.asset) return null
+  const alt = image.alt || ''
+
+  const pixel = image.pixelArt ? toPixelArtSource(image.asset) : null
+  if (pixel) return {src: pixel.src, alt, pixelArt: true}
+
   return {
     src: urlFor(image).width(AVATAR_SIZE).height(AVATAR_SIZE).fit('crop').auto('format').url(),
-    alt: image.alt || '',
+    alt,
     lqip: image.asset.metadata?.lqip ?? undefined,
   }
 }

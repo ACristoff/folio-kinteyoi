@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import {PixelArtImage} from './pixel-art-image'
 
 /**
  * Plain, serialisable description of one hero image. Built on the server
@@ -13,6 +14,11 @@ export interface HeroPictureProps {
   objectPosition?: string
   /** Skip the Next.js optimizer. Required for GIFs: any transform flattens them to a still frame. */
   unoptimized?: boolean
+  /**
+   * Native size when the image is pixel art. It is then enlarged by whole numbers and
+   * centred in the frame instead of covering it; `src` must be the untouched file.
+   */
+  pixelArt?: {width: number; height: number}
   priority?: boolean
   className?: string
 }
@@ -26,9 +32,24 @@ export function HeroPicture({
   blurDataURL,
   objectPosition,
   unoptimized,
+  pixelArt,
   priority,
   className,
 }: HeroPictureProps) {
+  if (pixelArt) {
+    return (
+      <PixelArtImage
+        src={src}
+        alt={alt}
+        width={pixelArt.width}
+        height={pixelArt.height}
+        fit="box"
+        priority={priority}
+        className={['absolute inset-0', className].filter(Boolean).join(' ')}
+      />
+    )
+  }
+
   return (
     <Image
       src={src}
@@ -71,6 +92,8 @@ export interface HeroAvatarProps {
   src: string
   alt: string
   blurDataURL?: string
+  /** Pixel art: `src` is the untouched file, drawn with hard pixel edges. */
+  pixelArt?: boolean
 }
 
 export interface HeroOverlayProps {
@@ -107,9 +130,10 @@ export function HeroOverlay({avatar, heading, subheading, body}: HeroOverlayProp
             height={160}
             sizes="(min-width: 40rem) 10rem, 7rem"
             priority
+            unoptimized={avatar.pixelArt}
             placeholder={avatar.blurDataURL ? 'blur' : 'empty'}
             blurDataURL={avatar.blurDataURL}
-            className="size-full object-cover"
+            className={['size-full object-cover', avatar.pixelArt && 'pixel-art'].filter(Boolean).join(' ')}
           />
         </div>
       )}
